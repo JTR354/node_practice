@@ -1,0 +1,20 @@
+(async () => {
+  const { MongoClient } = require("mongodb");
+  const url = "mongodb://localhost:27017/test";
+  const db = await MongoClient.connect(url);
+  console.log(`db connected`);
+  const runoob = db.db("runoob");
+  // const site = await runoob.createCollection("site");
+  // console.log("created collection runoob");
+  const site = await runoob.collection("site");
+  // await site.insertOne({ name: "jtr" });
+  // await site.insertMany([{ name: "lost" }, { name: "polo" }]);
+  // console.log("inserted one at collection of site");
+  // await site.insertOne({ name: 3 });
+  // const whereStr = { name: "jtr1" };
+  // const updateStr = { $set: { name: "jtr" } };
+  // await site.updateMany(whereStr, updateStr);
+  const result = await site.find().sort({ name: -1 }).toArray();
+  console.log(result);
+  await db.close();
+})();
